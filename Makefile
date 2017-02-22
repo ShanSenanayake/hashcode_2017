@@ -17,7 +17,7 @@ ${pip-install}: ${python} requirements.txt
 
 .PHONY: run
 run:
-	${python} source/parser.py input/hello_world.txt
+	${python} source/parser.py ${FILE} 
 
 #.PHONY: check
 #check:
