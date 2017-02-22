@@ -3,7 +3,7 @@ Hashcode 2017
 
 ## Dependencies
 
-`virtualenv` to run virtualenv environment
+`virtualenv` to run virtualenv environment  
 `cmake` to run makefile for automatic setup (skip for manual setup)
 
 
