@@ -58,7 +58,7 @@ if __name__ == '__main__':
     (video_dict, cache_dict, ep_dict) = parser.parse(sys.argv[1:])
 
     # 4.(remove all videos no longer requested)
-    # video_dict = {k: v for k, v in video_dict.items() if not [ep for ep in ep_dict.values() if v.index in ep.videos]}
+    video_dict = {k: v for k, v in video_dict.items() if not [ep for ep in ep_dict.values() if v.index in ep.videos]}
     # 5.{endpoint: {#req/size : video}} video list-map for each endpoint ordered by highest weight
     ep_to_vs = dict()
     for ep in ep_dict.values():
