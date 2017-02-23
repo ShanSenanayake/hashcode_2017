@@ -98,7 +98,8 @@ def parse(args):
         for _ in range(r):
             rv, re, rn = [int(i) for i in f.readline().split(' ')]
             if re in ep_dict:
-                ep_dict[re].add_video(video_dict[rv], rn)
+                if rv in video_dict:
+                    ep_dict[re].add_video(video_dict[rv], rn)
 
     return (video_dict, cache_dict, ep_dict)
 

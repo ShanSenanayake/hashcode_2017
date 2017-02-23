@@ -55,6 +55,8 @@ def get_best_cache(ep, video):
 if __name__ == '__main__':
 
     (video_dict, cache_dict, ep_dict) = parser.parse(sys.argv[1:])
+    import pdb; pdb.set_trace()
+
     # 4.(remove all videos no longer requested)
     video_dict = {k: v for k, v in video_dict.items() if not [ep for ep in ep_dict.values() if v.index in ep.videos]}
     # 5.{endpoint: {#req/size : video}} video list-map for each endpoint ordered by highest weight
@@ -87,6 +89,11 @@ if __name__ == '__main__':
         # 8. Go to 6
         best_ep = get_best_end_point(ep_to_vs, ep_dict)
     # import pdb; pdb.set_trace()
+    n_caches = 0
+    for cache in cache_dict.values():
+        if len(cache.videos):
+            n_caches += 1
+    print(n_caches)
     for cache in cache_dict.values():
         print(cache.index, *cache.videos.keys())
 
