@@ -1,7 +1,6 @@
 import sys
 
 
-
 def main(args):
     with open(args[0], 'r') as f:
         print(f.readline())
