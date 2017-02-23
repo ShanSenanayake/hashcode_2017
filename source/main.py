@@ -3,7 +3,7 @@
 import collections
 import sys
 import parser
-
+import pdb
 # {k: ep_to_vs[k] for k in sorted(d, key=lambda k: d[k][0])}
 # vid_list = sorted(ep_to_vs, key=lambda x: x[1])
 
@@ -23,6 +23,7 @@ import parser
 # WHEN REMOVING videos or requests, make sure to remove alll references to them
 
 def get_best_end_point(ep_to_vs, ep_dict):
+    # pdb.set_trace()
     # @TODO: implement using max, not sort
     # import pdb; pdb.set_trace()
     best_ep = None
@@ -35,7 +36,7 @@ def get_best_end_point(ep_to_vs, ep_dict):
     # if sorted_list and sorted_list[0] != ep_to_vs[sorted_list[0]] != -1:
         # return ep_dict[sorted_list[0]]
     # else:
-    return ep_dict[best_ep] if best_ep else None
+    return ep_dict[best_ep] if best_ep is not None else None
 
 def get_best_cache(ep, video):
     best_cache = None
@@ -55,10 +56,9 @@ def get_best_cache(ep, video):
 if __name__ == '__main__':
 
     (video_dict, cache_dict, ep_dict) = parser.parse(sys.argv[1:])
-    import pdb; pdb.set_trace()
 
     # 4.(remove all videos no longer requested)
-    video_dict = {k: v for k, v in video_dict.items() if not [ep for ep in ep_dict.values() if v.index in ep.videos]}
+    # video_dict = {k: v for k, v in video_dict.items() if not [ep for ep in ep_dict.values() if v.index in ep.videos]}
     # 5.{endpoint: {#req/size : video}} video list-map for each endpoint ordered by highest weight
     ep_to_vs = dict()
     for ep in ep_dict.values():
@@ -72,9 +72,9 @@ if __name__ == '__main__':
 
     # BEGIN LOOP
     # 6. Find endpoint which has highest weighted entry.
+
     best_ep = get_best_end_point(ep_to_vs, ep_dict)
     while best_ep:
-
         best_video = ep_to_vs[best_ep.index].pop()[1]
 
         # 6.5 find best cache
