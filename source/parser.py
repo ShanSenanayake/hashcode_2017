@@ -58,10 +58,13 @@ class Video:
         del video_map[self.index]
 
 
-def main(args):
+def parse(args):
+
+    video_dict = dict()
+    cache_dict = dict()
+    ep_dict = dict()
     with open(args[0], 'r') as f:
         v, e, r, c, x = [int(i) for i in f.readline().split(' ')]
-        video_dict = dict()
         for i, s in enumerate(f.readline().split(' ')):
             s = int(s)
             if s <= x:
@@ -89,7 +92,8 @@ def main(args):
             if re in ep_dict:
                 ep_dict[re].add_video(video_dict[rv], rn)
 
+    return (video_dict, cache_dict, ep_dict)
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    parse(sys.argv[1:])
