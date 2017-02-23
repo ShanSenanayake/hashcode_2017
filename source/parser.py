@@ -19,9 +19,9 @@ class Ep:
         video.eps[self.index] = (self, request)
 
     def remove(self):
-        for v in self.videos.items():
+        for v in self.videos.values():
             del v.eps[self.index]
-        for c in self.caches.items():
+        for c in self.caches.values():
             del c.eps[self.index]
         del ep_map[self.index]
 
@@ -42,7 +42,7 @@ class Video:
         self.video_map = video_map
 
     def remove(self):
-        for ep in eps.items():
+        for ep in eps.values():
             del ep.videos[self.index]
         del video_map[self.index]
 
