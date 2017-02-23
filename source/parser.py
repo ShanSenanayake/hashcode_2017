@@ -5,30 +5,30 @@ class Ep:
     def __init__(self, index, latency):
         self.index = index
         self.latency = latency
-        self.videos = list()
-        self.caches = list()
+        self.videos = dict()
+        self.caches = dict()
 
     def add_cache(self, cache, latency):
-        self.caches.append((cache, latency))
-        cache.eps.append((self, latency))
+        self.caches[cache.index] = (cache, latency)
+        cache.eps[self.index] = (self, latency)
 
     def add_video(self, video, request):
-        self.videos.append((video, request))
-        video.eps.append((self, request))
+        self.videos[video.index] = (video, request)
+        video.eps[self.index] = (self, request)
 
 class Cache:
 
     def __init__(self, index, size):
         self.index = index
         self.size = size
-        self.eps = list()
+        self.eps = dict()
 
 class Video:
 
     def __init__(self, index, size):
         self.index = index
         self.size = size
-        self.eps = list()
+        self.eps = dict()
 
 
 def main(args):
