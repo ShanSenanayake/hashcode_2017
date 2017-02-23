@@ -30,6 +30,11 @@ class Video:
         self.size = size
         self.eps = dict()
 
+    def remove(self):
+        for ep in eps.items():
+            del ep.videos[self.index]
+        
+
 
 def main(args):
     with open(args[0], 'r') as f:
