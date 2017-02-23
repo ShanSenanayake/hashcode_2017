@@ -17,6 +17,9 @@ class Ep:
     def add_video(self, video, request):
         self.videos[video.index] = (video, request)
         video.eps[self.index] = (self, request)
+    
+    def remove_video(self, video):
+        del self.videos[video.index]
 
     def remove(self):
         for v in self.videos.values():
