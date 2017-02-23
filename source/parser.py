@@ -19,7 +19,8 @@ class Ep:
         video.eps[self.index] = (self, request)
 
     def remove_video(self, video):
-        del self.videos[video.index]
+        if video.index in self.videos:
+            del self.videos[video.index]
 
     def remove(self):
         for v in self.videos.values():
@@ -41,8 +42,8 @@ class Cache:
         self.videos[video.index] = video
         video.caches[self.index] = self
         self.size -= video.size
-        for ep in self.eps.values():
-            ep_to_vs[ep.index] = [(k v) for (k, v) in ep_to_vs[ep.index] if v != video]
+        for (ep, lat) in self.eps.values():
+            ep_to_vs[ep.index] = [(k, v) for (k, v) in ep_to_vs[ep.index] if v != video]
             ep.remove_video(video)
 
     def remove_video(self, video):
@@ -56,6 +57,7 @@ class Video:
         self.index = index
         self.size = size
         self.eps = dict()
+        self.caches = dict()
         self.video_map = video_map
 
     def remove(self):

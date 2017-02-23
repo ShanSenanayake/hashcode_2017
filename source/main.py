@@ -25,25 +25,28 @@ import parser
 def get_best_end_point(ep_to_vs, ep_dict):
     # @TODO: implement using max, not sort
     sorted_list = sorted(ep_to_vs, key=lambda k: ep_to_vs[k][0])
-    return ep_dic[sorted_list[0]] if soreted_list else None
+    return ep_dict[sorted_list[0]] if sorted_list else None
 
 def get_best_cache(ep, video):
     best_cache = None
-    for cache in ep.caches.values():
+    best_latency = 99999999999999999999999999999
+    for (cache, latency) in ep.caches.values():
         if cache.size >= video.size:
             # @TODO: + if cache has many neighbours with this movie highly ranked
-            if best_cache and best_cache.latency > cache.latency:
+            if best_cache and best_latency > latency:
                 best_cache = cache
+                best_latency = latency
             elif not best_cache:
                 best_cache = cache
+                best_latency = latency
     return best_cache
 
 
 if __name__ == '__main__':
 
-    (video_dict, cache_dict, ep_dict) = parser.parse(sys.args[:1])
+    (video_dict, cache_dict, ep_dict) = parser.parse(sys.argv[1:])
     # 4.(remove all videos no longer requested)
-    video_dict = {k: v for k, v in video_dict.items() if not [ep for ep in ep_dict.values() if ep.videos.contains(v.id)]}
+    video_dict = {k: v for k, v in video_dict.items() if not [ep for ep in ep_dict.values() if v.index in ep.videos]}
     # 5.{endpoint: {#req/size : video}} video list-map for each endpoint ordered by highest weight
     ep_to_vs = dict()
     for ep in ep_dict.values():
@@ -57,7 +60,8 @@ if __name__ == '__main__':
 
     # BEGIN LOOP
     # 6. Find endpoint which has highest weighted entry.
-    while best_ep = get_best_end_point(ep_to_vs):
+    best_ep = get_best_end_point(ep_to_vs, ep_dict)
+    while best_ep:
 
         best_video = ep_to_vs[best_ep.index].pop()[1]
 
@@ -69,8 +73,9 @@ if __name__ == '__main__':
             # remove video from ep and continue
         else:
             # 7b. Add video to fastest cache available and remove from all entries which has video cache connected to them
-            cache.add_video(video, ep_to_vs)
+            best_cache.add_video(best_video, ep_to_vs)
         # 8. Go to 6
+        best_ep = get_best_end_point(ep_to_vs, ep_dict)
 
     for cache in cache_dict.values():
         print(cache.index, *cache.keys())
