@@ -41,6 +41,8 @@ class Cache:
         self.videos[video.index] = video
         video.caches[self.index] = self
         self.size -= video.size
+        for ep in self.eps.values():
+            ep.remove_video(video)
 
     def remove_video(self, video):
         del self.videos[video.index]
