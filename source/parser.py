@@ -17,7 +17,7 @@ class Ep:
     def add_video(self, video, request):
         self.videos[video.index] = (video, request)
         video.eps[self.index] = (self, request)
-    
+
     def remove_video(self, video):
         del self.videos[video.index]
 
@@ -37,11 +37,12 @@ class Cache:
         self.videos = dict()
         self.eps = dict()
 
-    def add_video(self, video):
+    def add_video(self, video, ep_to_vs):
         self.videos[video.index] = video
         video.caches[self.index] = self
         self.size -= video.size
         for ep in self.eps.values():
+            ep_to_vs[ep.index] = [(k v) for (k, v) in ep_to_vs[ep.index] if v != video]
             ep.remove_video(video)
 
     def remove_video(self, video):

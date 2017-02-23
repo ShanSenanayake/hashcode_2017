@@ -22,10 +22,10 @@ import parser
 
 # WHEN REMOVING videos or requests, make sure to remove alll references to them
 
-def get_best_end_point(ep_to_vs):
+def get_best_end_point(ep_to_vs, ep_dict):
     # @TODO: implement using max, not sort
-    sorted_list = [ep_to_vs[k] for k in sorted(d, key=lambda k: d[k][0])]
-    return sorted_list[0]
+    sorted_list = sorted(ep_to_vs, key=lambda k: ep_to_vs[k][0])
+    return ep_dic[sorted_list[0]] if soreted_list else None
 
 def get_best_cache(ep, video):
     best_cache = None
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     ep_to_vs = dict()
     for ep in ep_dict.values():
         vid_list = list()
-        for v, n_req in ep.videos.items():
+        for v, n_req in ep.videos.values():
             score = float(n_req)/v.size
             vid_list.append((score, v))
         vid_list = sorted(vid_list, key=lambda x: x[0])
@@ -56,10 +56,10 @@ if __name__ == '__main__':
     # ep_to_vs[k] for k in sorted(d, key=lambda k: d[k][0])
 
     # BEGIN LOOP
-    while ep_to_vs:
-        # 6. Find endpoint which has highest weighted entry.
-        best_ep = get_best_end_point(ep_to_vs)
-        best_video = best_ep.videos.pop(0)
+    # 6. Find endpoint which has highest weighted entry.
+    while best_ep = get_best_end_point(ep_to_vs):
+
+        best_video = ep_to_vs[best_ep.index].pop()[1]
 
         # 6.5 find best cache
         best_cache = get_best_cache(best_ep, best_video)
@@ -69,6 +69,9 @@ if __name__ == '__main__':
             # remove video from ep and continue
         else:
             # 7b. Add video to fastest cache available and remove from all entries which has video cache connected to them
-            cache.add_video(video)
+            cache.add_video(video, ep_to_vs)
         # 8. Go to 6
+
+    for cache in cache_dict.values():
+        print(cache.index, *cache.keys())
 
