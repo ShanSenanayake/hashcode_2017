@@ -24,8 +24,18 @@ import parser
 
 def get_best_end_point(ep_to_vs, ep_dict):
     # @TODO: implement using max, not sort
-    sorted_list = sorted(ep_to_vs, key=lambda k: ep_to_vs[k][0])
-    return ep_dict[sorted_list[0]] if sorted_list else None
+    # import pdb; pdb.set_trace()
+    best_ep = None
+    max_val = -1
+    for (ep, v) in ep_to_vs.items():
+        if v and v[0] and v[0][0] > max_val:
+            best_ep = ep
+
+    # sorted_list = sorted(ep_to_vs, reverse=True, key=lambda k: ep_to_vs[k][0] if ep_to_vs[k] else -1)
+    # if sorted_list and sorted_list[0] != ep_to_vs[sorted_list[0]] != -1:
+        # return ep_dict[sorted_list[0]]
+    # else:
+    return ep_dict[best_ep] if best_ep else None
 
 def get_best_cache(ep, video):
     best_cache = None
@@ -76,7 +86,7 @@ if __name__ == '__main__':
             best_cache.add_video(best_video, ep_to_vs)
         # 8. Go to 6
         best_ep = get_best_end_point(ep_to_vs, ep_dict)
-
+    # import pdb; pdb.set_trace()
     for cache in cache_dict.values():
-        print(cache.index, *cache.keys())
+        print(cache.index, *cache.videos.keys())
 
