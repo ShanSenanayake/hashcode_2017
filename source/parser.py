@@ -31,7 +31,18 @@ class Cache:
     def __init__(self, index, size):
         self.index = index
         self.size = size
+        self.videos = dict()
         self.eps = dict()
+
+    def add_video(self, video):
+        self.videos[video.index] = video
+        video.caches[self.index] = self
+        self.size -= video.size
+
+    def remove_video(self, video):
+        del self.videos[video.index]
+        del video.caches[self.video]
+        self.size += video.size
 
 class Video:
 
